@@ -12,6 +12,12 @@
         <selenium.version>4.0.0-alpha-6</selenium.version>
         <testng.version>7.1.0</testng.version>
         <webdrivermanager.version>4.2.2</webdrivermanager.version>
+        <commons.csv.version>1.8</commons.csv.version>
+        <json.simple.version>1.1.1</json.simple.version>
+        <poi.ooxml.version>3.15</poi.ooxml.version>
+        <javax.xmlparser.version>1.4.5</javax.xmlparser.version>
+        <reportng.version>1.1.4</reportng.version>
+        <guice.version>4.2.3</guice.version>
 
 
     </properties>
@@ -44,20 +50,20 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
-            <version>1.8</version>
+            <version>${commons.csv.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
-            <version>1.1.1</version>
+            <version>${json.simple.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>3.15</version>
+            <version>${poi.ooxml.version}</version>
         </dependency>
 
 
@@ -65,7 +71,7 @@
         <dependency>
             <groupId>javax.xml.parsers</groupId>
             <artifactId>jaxp-api</artifactId>
-            <version>1.4.5</version>
+            <version>${javax.xmlparser.version}</version>
         </dependency>
 
 
@@ -73,7 +79,7 @@
         <dependency>
             <groupId>org.uncommons</groupId>
             <artifactId>reportng</artifactId>
-            <version>1.1.4</version>
+            <version>${reportng.version}</version>
         </dependency>
 
 
@@ -81,7 +87,7 @@
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
-            <version>4.2.3</version>
+            <version>${guice.version}</version>
         </dependency>
 
 
