@@ -6,6 +6,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -27,10 +29,13 @@ public class HRMTestBase {
     public static  String BASE_URL;
     public static  String BROWSER_TYPE;
 
+    static final Logger logger = LogManager.getLogger(HRMTestBase.class.getName());
+
 
 
     @BeforeSuite(alwaysRun = true, groups = {"regression", "smoke"})
     public void beforeSuite(){
+        logger.info("Test is started");
         initProperties();
 
     }
@@ -40,9 +45,10 @@ public class HRMTestBase {
             Configuration config = new PropertiesConfiguration("hrm.properties");
             BASE_URL = config.getString("base.url");
             BROWSER_TYPE = config.getString("browser.type");
+            logger.info("Properties are initialized ");
 
         } catch (ConfigurationException e) {
-            e.printStackTrace();
+            logger.error("Property Initialization Failed", e);
             System.exit(-1);
         }
 
