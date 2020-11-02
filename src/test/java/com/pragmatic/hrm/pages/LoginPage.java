@@ -1,7 +1,9 @@
 package com.pragmatic.hrm.pages;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 /**
  * Created by Pragmatic Test Labs (Private) Limited
@@ -52,10 +54,15 @@ public class LoginPage {
     }
 
 
-    public LoginPage clickLoginButton(){
+    public LoginPage clickLoginButtonWithError(){
         btnLogin.click();
         return this;
+    }
 
+
+    public LandingPage clickLoginWithSuccess(WebDriver webDriver){
+        btnLogin.click();
+        return PageFactory.initElements(webDriver, LandingPage.class);
     }
 
     public String getErrorMessage(){

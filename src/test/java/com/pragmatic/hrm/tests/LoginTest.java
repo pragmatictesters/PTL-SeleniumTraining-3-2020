@@ -1,13 +1,11 @@
 package com.pragmatic.hrm.tests;
 
+import com.pragmatic.hrm.HRMTestBase;
+import com.pragmatic.hrm.pages.LandingPage;
 import com.pragmatic.hrm.pages.LoginPage;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -16,34 +14,58 @@ import org.testng.annotations.Test;
  *
  * @Author Janesh Kodikara
  */
-public class LoginTest {
-
-    private WebDriver webDriver;
-    public static final String BASE_URL = "http://hrm.pragmatictestlabs.com";
-
-    @BeforeClass
-    public void beforeClass(){
-        WebDriverManager.chromedriver().setup();
-        webDriver = new ChromeDriver();
-
-    }
 
 
-    @BeforeMethod
+public class LoginTest extends HRMTestBase {
+
+    @BeforeMethod(groups = {"regression", "smoke"})
     public void beforeMethod(){
+        webDriver = getBrowserInstance();
         webDriver.get(BASE_URL);
     }
 
-    @AfterMethod
+
+
+    @AfterMethod(groups = {"regression", "smoke"})
     public void afterMethod(){
         webDriver.quit();
     }
 
-    @Test
+
+    @Test(groups = {"smoke", "regression"})
+    public void testLoginWithValidCredentials(){
+        LoginPage loginPage= PageFactory.initElements(webDriver,LoginPage.class);
+        LandingPage landingPage = loginPage.typeUsername("Admin").typePassword("Ptl@#321").clickLoginWithSuccess(webDriver);
+        Assert.assertEquals(landingPage.getWelcomeMessage(), "Welcome Admin");
+    }
+
+    @Test(groups = {"regression"})
     public void testLoginWithBlankUsername(){
         LoginPage loginPage= PageFactory.initElements(webDriver,LoginPage.class);
-        loginPage.typeUsername("").typePassword("Ptl").clickLoginButton();
+        loginPage.typeUsername("").typePassword("Ptl").clickLoginButtonWithError();
         Assert.assertEquals(loginPage.getErrorMessage(), "Username cannot be empty");
     }
+
+
+    @Test(groups = {"regression"})
+    public void testLoginWithBlankUsernameAndBlankPassword(){
+        LoginPage loginPage= PageFactory.initElements(webDriver,LoginPage.class);
+        loginPage.typeUsername("").typePassword("").clickLoginButtonWithError();
+        Assert.assertEquals(loginPage.getErrorMessage(), "Username cannot be empty");
+    }
+
+
+    @Test(groups = {"regression"})
+    public void testLoginWithBlankPassword() {
+        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
+        loginPage.typeUsername("Admin").typePassword("").clickLoginButtonWithError();
+        Assert.assertEquals(loginPage.getErrorMessage(), "Password cannot be empty");
+    }
+
+
+
+
+
+
 
 }

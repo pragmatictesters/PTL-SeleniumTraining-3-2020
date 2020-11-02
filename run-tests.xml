@@ -23,51 +23,39 @@
         
     </test>
 
-    <test name="test2" enabled="false">
+
+
+  
+    <test name="run-regression-tests" enabled="false">
+
+        <groups>
+            <run>
+                <include name="regression"/>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="com.pragmatic.hrm.tests.LoginTest"></class>
+        </classes>
+        
+    </test>
+
+    <test name="run-smoke-tests" enabled="true">
+
         <groups>
             <run>
                 <include name="smoke"/>
-<!--                <exclude name="smoke"></exclude>-->
             </run>
         </groups>
 
-        <packages>
-            <package name="com.pragmatic.testng"></package>
-        </packages>
-
-    </test>
-
-
-    <test name="test-method" enabled="false">
-        <groups>
-            <run>
-                <include name="regression"/>
-            </run>
-        </groups>
         <classes>
-            <class name="com.pragmatic.testng.TestBase"></class>
-            <class name="com.pragmatic.testng.TestNGExample7">
-                <methods>
-                    <exclude name="testMethod5"></exclude>
-                </methods>
-            </class>
+            <class name="com.pragmatic.hrm.tests.LoginTest"></class>
         </classes>
 
     </test>
 
 
-    <test name="test-inherited-before-methods">
-        <groups>
-            <run>
-                <include name="regression"/>
-            </run>
-        </groups>
-        
-        <classes>
-            <class name="com.pragmatic.testng.TestNGExample18"></class>
-        </classes>
 
-    </test>
 
     <listeners>
         <listener class-name="org.uncommons.reportng.HTMLReporter"/>

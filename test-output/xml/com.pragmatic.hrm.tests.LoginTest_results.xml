@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="run-smoke-tests"
+           tests="1"
+           failures="0"
+           errors="0"
+           skipped="0"
+           time="3.970">
+  <properties />
+  
+  
+            <testcase name="testLoginWithValidCredentials" time="3.970" classname="com.pragmatic.hrm.tests.LoginTest" />
+      
+</testsuite>
