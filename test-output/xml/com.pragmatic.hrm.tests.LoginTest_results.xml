@@ -4,10 +4,10 @@
            failures="0"
            errors="0"
            skipped="0"
-           time="3.970">
+           time="4.314">
   <properties />
   
   
-            <testcase name="testLoginWithValidCredentials" time="3.970" classname="com.pragmatic.hrm.tests.LoginTest" />
+            <testcase name="testLoginWithValidCredentials" time="4.314" classname="com.pragmatic.hrm.tests.LoginTest" />
       
 </testsuite>

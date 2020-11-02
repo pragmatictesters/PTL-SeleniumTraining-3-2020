@@ -1,6 +1,9 @@
 package com.pragmatic.hrm;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -18,13 +21,27 @@ import java.util.Collections;
 public class HRMTestBase {
 
     public WebDriver webDriver;
-    public static final String BASE_URL = "http://hrm.pragmatictestlabs.com";
-    public static final String BROWSER_TYPE = "chrome";
+    public static  String BASE_URL;
+    public static  String BROWSER_TYPE;
 
 
 
     @BeforeSuite(alwaysRun = true, groups = {"regression", "smoke"})
     public void beforeSuite(){
+        initProperties();
+
+    }
+
+    private void initProperties() {
+        try {
+            Configuration config = new PropertiesConfiguration("hrm.properties");
+            BASE_URL = config.getString("base.url");
+            BROWSER_TYPE = config.getString("browser.type");
+
+        } catch (ConfigurationException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
 
     }
 
