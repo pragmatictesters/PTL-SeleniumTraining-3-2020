@@ -14,13 +14,13 @@ Sample project created for Selenium Training (Oct-Nov 2020)
    * Apache Commons Configuration 
    * Apache Commons CSV 
    * Apache POI 
+   * Log4j2 
    
    
 ## Audience 
 This project is to be used by Pragmatic Learning trainees.
 
 ## TODO 
-    * Log4J Integration 
     * Sikulli, Autoit Integration 
     * Moving/Creating common methods into HRMTestBase.java 
     * Cucumber Integration 
