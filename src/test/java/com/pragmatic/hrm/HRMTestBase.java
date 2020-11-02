@@ -1,5 +1,7 @@
 package com.pragmatic.hrm;
 
+import com.pragmatic.hrm.pages.LandingPage;
+import com.pragmatic.hrm.pages.LoginPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
@@ -7,6 +9,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
@@ -87,6 +90,24 @@ public class HRMTestBase {
       }
 
       return webDriver;
+    }
+
+
+
+    public LandingPage login(String userName, String password){
+        LoginPage loginPage= PageFactory.initElements(webDriver,LoginPage.class);
+        LandingPage landingPage = loginPage.typeUsername(userName).typePassword(password).clickLoginWithSuccess(webDriver);
+        return landingPage;
+
+    }
+
+
+    public void sleep(int i) {
+        try {
+            Thread.sleep(i);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 

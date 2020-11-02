@@ -1,5 +1,6 @@
 package com.pragmatic.hrm.pages;
 
+import com.pragmatic.hrm.HRMTestBase;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -8,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
  *
  * @Author Janesh Kodikara
  */
-public class AddNewEmployeePage {
+public class AddNewEmployeePage  extends HRMTestBase {
 
 
     @FindBy (id="firstName")
@@ -19,6 +20,13 @@ public class AddNewEmployeePage {
 
     @FindBy(id="btnSave")
     WebElement btnSave;
+
+
+    @FindBy(css = "span[for='firstName'].validation-error")
+    WebElement errFirstname;
+
+    @FindBy(css = "span[for='lastName'].validation-error")
+    WebElement errLastname;
 
 
     public AddNewEmployeePage  typeFirstname(String firstName){
@@ -36,5 +44,20 @@ public class AddNewEmployeePage {
         btnSave.click();
         return this;
     }
+
+    public void clickSaveWithSuccess() {
+        btnSave.click();
+        //TODO need to return appropriate page
+    }
+
+    public String getFirstNameError(){
+        return errFirstname.getText();
+    }
+
+
+    public String getLastNameError(){
+        return errLastname.getText();
+    }
+
 
 }
