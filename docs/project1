@@ -1,0 +1,17 @@
+
+
+Test case management systems
+TestLink
+
+IEEE standard for test case design
+
+Test Cases
+1. Test Case ID
+2. Test Summary
+3. Test Description / Steps
+4. Pre-conditions
+5. Expected Result
+6. Actual Result
+7. Test data
+8. Status (Pass, Fail, Invalid, Blocked, Planned,
+9. Priority (High, Medium, Low)

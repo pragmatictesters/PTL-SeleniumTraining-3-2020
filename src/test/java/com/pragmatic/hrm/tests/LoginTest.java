@@ -5,8 +5,6 @@ import com.pragmatic.hrm.pages.LandingPage;
 import com.pragmatic.hrm.pages.LoginPage;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -18,18 +16,7 @@ import org.testng.annotations.Test;
 
 public class LoginTest extends HRMTestBase {
 
-    @BeforeMethod(groups = {"regression", "smoke"})
-    public void beforeMethod(){
-        webDriver = getBrowserInstance();
-        webDriver.get(BASE_URL);
-    }
 
-
-
-    @AfterMethod(groups = {"regression", "smoke"})
-    public void afterMethod(){
-        webDriver.quit();
-    }
 
 
     @Test(groups = {"smoke", "regression"})

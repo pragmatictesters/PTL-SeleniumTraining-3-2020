@@ -4,6 +4,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
 import java.util.Collections;
@@ -24,7 +26,23 @@ public class HRMTestBase {
     @BeforeSuite(alwaysRun = true, groups = {"regression", "smoke"})
     public void beforeSuite(){
 
-        WebDriverManager.chromedriver().setup();
+    }
+
+
+    @BeforeMethod(groups = {"regression", "smoke"})
+    public void beforeMethod(){
+        webDriver = getBrowserInstance();
+        webDriver.get(BASE_URL);
+    }
+
+
+
+    @AfterMethod(groups = {"regression", "smoke"})
+    public void afterMethod(){
+
+        if (webDriver!=null){
+            webDriver.quit();
+        }
 
     }
 
@@ -32,6 +50,7 @@ public class HRMTestBase {
     public WebDriver getBrowserInstance() {
 
       if (BROWSER_TYPE.equalsIgnoreCase("chrome")){
+          WebDriverManager.chromedriver().setup();
           ChromeOptions options = new ChromeOptions();
           options.addArguments("start-maximized");
           options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
@@ -39,6 +58,7 @@ public class HRMTestBase {
           webDriver= new ChromeDriver(options);
 
       }else if(BROWSER_TYPE.equalsIgnoreCase("chrome-headless")){
+          WebDriverManager.chromedriver().setup();
           ChromeOptions options = new ChromeOptions();
           options.addArguments("--headless");
           options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
