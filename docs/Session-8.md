@@ -1,6 +1,6 @@
 
 
-# Plan for the day 
+# Plan for the day [03 Nov 2020]
 
    * Selenium ReportNG Integration
    * Selenium Log4j2 Integration
