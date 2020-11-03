@@ -20,11 +20,6 @@ Sample project created for Selenium Training (Oct-Nov 2020)
 ## Audience 
 This project is to be used by Pragmatic Learning trainees.
 
-## TODO 
-    * Sikulli, Autoit Integration 
-    * Moving/Creating common methods into HRMTestBase.java 
-    * Cucumber Integration 
-    * DDT Integration (CSV, XML, DB, JSON etc) 
 
 ## Author(s)
     Janesh Kodikara 
