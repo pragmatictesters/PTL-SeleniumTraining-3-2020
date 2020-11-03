@@ -26,10 +26,11 @@ import java.util.Collections;
 public class HRMTestBase {
 
     public WebDriver webDriver;
-    public static  String BASE_URL;
+    public static String BASE_URL;
     public static  String BROWSER_TYPE;
 
     static final Logger logger = LogManager.getLogger(HRMTestBase.class.getName());
+
 
 
 
@@ -107,6 +108,9 @@ public class HRMTestBase {
 
     }
 
+
+
+    //TODO Add custom errors
 
     public void sleep(int i) {
         try {

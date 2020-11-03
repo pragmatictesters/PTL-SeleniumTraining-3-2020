@@ -8,3 +8,9 @@
    * Refactoring code 
    * TODO feature in IntelliJ IDEA 
 
+
+FATAL
+ERROR
+WARN
+INFO 
+DEBUG
