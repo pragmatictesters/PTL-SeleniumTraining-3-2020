@@ -1,4 +1,4 @@
-package com.pragmatic.workshop;
+package com.pragmatic.examples;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;

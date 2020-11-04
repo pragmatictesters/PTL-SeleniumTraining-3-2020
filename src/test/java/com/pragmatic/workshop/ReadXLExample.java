@@ -21,7 +21,7 @@ import java.util.Iterator;
  *
  * @Author Janesh Kodikara
  */
-public class ReadXL {
+public class ReadXLExample {
 
 
 

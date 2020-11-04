@@ -1,6 +1,7 @@
 package com.pragmatic.workshop;
 
 import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.json.simple.JSONObject;
 import org.testng.annotations.DataProvider;
@@ -10,13 +11,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.List;
 
 /**
  * Created by Pragmatic Test Labs (Private) Limited
  *
  * @Author Janesh Kodikara
  */
-public class ReadCSV {
+public class ReadCSVExample {
 
 
     @Test (dataProvider = "user_credentials")
@@ -35,12 +37,54 @@ public class ReadCSV {
         readCSV();
     }
 
+
+
+    @Test
+    public void testReadCSVFileHeader(){
+        readHeader();
+    }
+
+
     
     @DataProvider(name = "user_credentials")
     public Object[][] userCredetials(){
         return readCSV();
     }
-    
+
+
+    private void readHeader(){
+
+        try {
+            CSVFormat csvFileFormat = CSVFormat.DEFAULT.withHeader();
+            FileReader fileReader = null;
+            fileReader = new FileReader("src/test/resources/user_credentials.csv");
+            CSVParser csvFileParser = new CSVParser(fileReader, csvFileFormat);
+            List csvRecords = csvFileParser.getRecords();
+            System.out.println("Number of columns in the CSV file" + csvFileParser.getHeaderNames().size());
+            
+            int numberOfColumns = csvFileParser.getHeaderNames().size();
+            String [] coulums = new String [numberOfColumns];
+            int columnNumber = 0;
+            for (String header : csvFileParser.getHeaderNames()){
+                coulums[columnNumber++] = header;
+            }
+
+            for (int i=0; i < coulums.length; i++){
+                System.out.println("Column " + coulums[i]);
+            }
+
+            int rowsInCSV = csvRecords.size();
+
+            System.out.println("rowsInCSV = " + rowsInCSV);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     private JSONObject[][] readCSV() {
 
@@ -50,6 +94,9 @@ public class ReadCSV {
 
         Reader in = null;
         try {
+
+
+
             in = new FileReader(fileName);
             Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
 
@@ -69,6 +116,10 @@ public class ReadCSV {
 
             for (CSVRecord record : records2) {
                 JSONObject jsonObject = new JSONObject();
+                for (int i= 0  ;i < record.size() ; i ++) {
+
+                }
+
                 String username = record.get("username");
                 jsonObject.put("username", username);
                 String password = record.get("password");

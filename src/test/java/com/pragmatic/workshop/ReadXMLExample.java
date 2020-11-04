@@ -19,7 +19,7 @@ import java.io.IOException;
  *
  * @Author Janesh Kodikara
  */
-public class ReadXML {
+public class ReadXMLExample {
 
 
     @Test (dataProvider = "user_credentials")
@@ -59,19 +59,21 @@ public class ReadXML {
             Node node = nodeList.item(0);
             Element element = (Element) node;
 
-
             for (int i = 0; i < nodeList.getLength(); i++) {
 
                  JSONObject jsonObject = new JSONObject();
                  node = nodeList.item(i);
                  element = (Element) node;
 
-                System.out.println("username = " + element.getElementsByTagName("username").item(0).getTextContent());
-                System.out.println("password = " + element.getElementsByTagName("password").item(0).getTextContent());
-                System.out.println("expected_outcome = " + element.getElementsByTagName("expected_outcome").item(0).getTextContent());
-                jsonObject.put("username", element.getElementsByTagName("username").item(0).getTextContent() );
-                jsonObject.put("password", element.getElementsByTagName("password").item(0).getTextContent() );
-                jsonObject.put("expected_outcome", element.getElementsByTagName("expected_outcome").item(0).getTextContent() );
+                NodeList  nodeList1 = element.getChildNodes();
+                for (int k=0; k < element.getChildNodes().getLength(); k ++){
+
+                    if (nodeList1.item(k).getNodeName()!="#text") {
+                        String nodeName = nodeList1.item(k).getNodeName();
+                        jsonObject.put(nodeName, element.getElementsByTagName(nodeName).item(0).getTextContent() );
+
+                    }
+                }
                 data[i][0] = jsonObject;
             }
             return data;

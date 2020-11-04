@@ -1,4 +1,4 @@
-package com.pragmatic.workshop;
+package com.pragmatic.examples;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
