@@ -6,8 +6,17 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.json.simple.JSONObject;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -22,8 +31,19 @@ import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.*;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -35,35 +55,30 @@ public class HRMTestBase {
 
     public WebDriver webDriver;
     public static String BASE_URL;
-    public static  String BROWSER_TYPE;
+    public static String BROWSER_TYPE;
 
     static final Logger logger = LogManager.getLogger(HRMTestBase.class.getName());
 
 
-
-
     @BeforeSuite(alwaysRun = true, groups = {"regression", "smoke"})
-    public void beforeSuite(){
+    public void beforeSuite() {
         logger.info("Test is started");
         initProperties();
 
     }
 
 
-
-
     @BeforeMethod(groups = {"regression", "smoke"})
-    public void beforeMethod(){
+    public void beforeMethod() {
         webDriver = getBrowserInstance();
         webDriver.get(BASE_URL);
     }
 
 
-
     @AfterMethod(groups = {"regression", "smoke"})
-    public void afterMethod(){
+    public void afterMethod() {
 
-        if (webDriver!=null){
+        if (webDriver != null) {
             webDriver.quit();
         }
 
@@ -86,68 +101,66 @@ public class HRMTestBase {
 
     public WebDriver getBrowserInstance() {
 
-      if (BROWSER_TYPE.equalsIgnoreCase("chrome")){
-          WebDriverManager.chromedriver().setup();
-          ChromeOptions options = new ChromeOptions();
-          options.addArguments("start-maximized");
-          options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
-          options.setExperimentalOption("useAutomationExtension", false);
-          webDriver= new ChromeDriver(options);
+        if (BROWSER_TYPE.equalsIgnoreCase("chrome")) {
+            WebDriverManager.chromedriver().setup();
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("start-maximized");
+            options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
+            options.setExperimentalOption("useAutomationExtension", false);
+            webDriver = new ChromeDriver(options);
 
-      }else if(BROWSER_TYPE.equalsIgnoreCase("chrome-headless")){
-          WebDriverManager.chromedriver().setup();
-          ChromeOptions options = new ChromeOptions();
-          options.addArguments("--headless");
-          options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
-          options.setExperimentalOption("useAutomationExtension", false);
-          webDriver= new ChromeDriver(options);
+        } else if (BROWSER_TYPE.equalsIgnoreCase("chrome-headless")) {
+            WebDriverManager.chromedriver().setup();
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless");
+            options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
+            options.setExperimentalOption("useAutomationExtension", false);
+            webDriver = new ChromeDriver(options);
 
-      } else if (BROWSER_TYPE.equalsIgnoreCase("firefox")){
-          //TODO Upgrade the IDEA project to JDK 13
-          WebDriverManager.firefoxdriver().setup();
-          webDriver = new FirefoxDriver();
+        } else if (BROWSER_TYPE.equalsIgnoreCase("firefox")) {
+            //TODO Upgrade the IDEA project to JDK 13
+            WebDriverManager.firefoxdriver().setup();
+            webDriver = new FirefoxDriver();
 
-      } else if (BROWSER_TYPE.equalsIgnoreCase("firefox-headless")){
-          //TODO Upgrade the IDEA project to JDK 13
-          FirefoxOptions options = new FirefoxOptions();
-          options.setHeadless(true);
-          WebDriverManager.firefoxdriver().setup();
-          webDriver = new FirefoxDriver(options);
+        } else if (BROWSER_TYPE.equalsIgnoreCase("firefox-headless")) {
+            //TODO Upgrade the IDEA project to JDK 13
+            FirefoxOptions options = new FirefoxOptions();
+            options.setHeadless(true);
+            WebDriverManager.firefoxdriver().setup();
+            webDriver = new FirefoxDriver(options);
 
-      } else if (BROWSER_TYPE.equalsIgnoreCase("ie")){
-          WebDriverManager.iedriver().setup();
-          webDriver = new InternetExplorerDriver();
-      } else if (BROWSER_TYPE.equalsIgnoreCase("safari")){
-          webDriver = new SafariDriver();
+        } else if (BROWSER_TYPE.equalsIgnoreCase("ie")) {
+            WebDriverManager.iedriver().setup();
+            webDriver = new InternetExplorerDriver();
+        } else if (BROWSER_TYPE.equalsIgnoreCase("safari")) {
+            webDriver = new SafariDriver();
 
-      }else if (BROWSER_TYPE.equalsIgnoreCase("opera")){
-          WebDriverManager.operadriver().setup();
-          webDriver = new OperaDriver();
+        } else if (BROWSER_TYPE.equalsIgnoreCase("opera")) {
+            WebDriverManager.operadriver().setup();
+            webDriver = new OperaDriver();
 
-      }else if (BROWSER_TYPE.equalsIgnoreCase("edge")){
-          WebDriverManager.edgedriver().setup();
-          webDriver = new EdgeDriver();
+        } else if (BROWSER_TYPE.equalsIgnoreCase("edge")) {
+            WebDriverManager.edgedriver().setup();
+            webDriver = new EdgeDriver();
 
-      } else {
-          //TODO Add a custom error message here
-          System.exit(-1);
-      }
+        } else {
+            //TODO Add a custom error message here
+            System.exit(-1);
+        }
 
-      webDriver.manage().window().maximize();
-      webDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-      logger.info("Browser is launched");
-      return webDriver;
+        webDriver.manage().window().maximize();
+        webDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        logger.info("Browser is launched");
+        return webDriver;
     }
 
 
-
-    public LandingPage login(String userName, String password){
-        LoginPage loginPage= PageFactory.initElements(webDriver,LoginPage.class);
+    public LandingPage login(String userName, String password) {
+        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
         LandingPage landingPage = loginPage.typeUsername(userName).typePassword(password).clickLoginWithSuccess(webDriver);
         return landingPage;
 
     }
-
 
 
     //TODO Add custom errors
@@ -160,25 +173,164 @@ public class HRMTestBase {
         }
     }
 
-    public  void check(WebElement checkbox){
+    public void check(WebElement checkbox) {
 
-        if (!checkbox.isSelected()){
+        if (!checkbox.isSelected()) {
             checkbox.click();
         }
     }
 
 
-    public void uncheck(WebElement checkbox){
-        if(checkbox.isSelected()){
+    public void uncheck(WebElement checkbox) {
+        if (checkbox.isSelected()) {
             checkbox.click();
         }
     }
 
-    public void clearAndType(WebElement txtElement, String textToType){
+    public void clearAndType(WebElement txtElement, String textToType) {
         txtElement.clear();
         txtElement.sendKeys(textToType);
     }
 
+
+    public static JSONObject[][] readCSV(String fileName) {
+
+        JSONObject[][] data = null;
+
+
+        try {
+
+
+            //Get the header information dynamically
+            CSVFormat csvFileFormat = CSVFormat.DEFAULT.withHeader();
+            FileReader fileReader = null;
+            fileReader = new FileReader(fileName);
+            CSVParser csvFileParser = new CSVParser(fileReader, csvFileFormat);
+            List csvRecords = csvFileParser.getRecords();
+
+
+            int currentRow = 0;
+            int rowsInCSV = csvRecords.size();
+            data = new JSONObject[rowsInCSV][1];
+
+            Reader in = new FileReader(fileName);
+            Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
+
+            for (CSVRecord record : records) {
+
+                JSONObject jsonObject = new JSONObject();
+                for (String header : csvFileParser.getHeaderNames()) {
+                    jsonObject.put(header, record.get(header));
+                }
+                data[currentRow++][0] = jsonObject;
+            }
+            return data;
+
+        } catch (FileNotFoundException fileNotFoundException) {
+            fileNotFoundException.printStackTrace();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        return data;
+
+    }
+
+
+
+    public static JSONObject[][] readXLFile(String fileName1){
+        String fileName = fileName1;
+        int rowsInSheet =0 ;
+        JSONObject[][] data = null;
+
+        try {
+            FileInputStream excelFile = new FileInputStream(fileName);
+            Workbook workbook = new XSSFWorkbook(excelFile);
+            Sheet sheet = workbook.getSheetAt(0);
+            rowsInSheet = sheet.getPhysicalNumberOfRows();
+            data = new JSONObject[rowsInSheet-1][1];
+
+            Iterator<Row> iterator = sheet.iterator();
+
+            Row firstRow = iterator.next();
+            Iterator<Cell> cellIterator = firstRow.iterator();
+            String[] columns = new String[firstRow.getPhysicalNumberOfCells()];
+            int columnID = 0;
+            while (cellIterator.hasNext()){
+                String value = cellIterator.next().getStringCellValue();
+                columns[columnID++] = value;
+            }
+
+
+            while (iterator.hasNext()){
+                JSONObject jsonObject = new JSONObject();
+
+                Row currentRow = iterator.next();
+                //Iterator<Cell> cellIterator = currentRow.iterator();
+                cellIterator = currentRow.iterator();
+                columnID =0;
+
+                while (cellIterator.hasNext()){
+                    String value = cellIterator.next().getStringCellValue();
+                    jsonObject.put(columns[columnID++], value);
+
+                }
+                data[currentRow.getRowNum()-1][0]= jsonObject;
+
+            }
+            return data;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return data;
+
+    }
+
+
+    public static JSONObject[][] readXML(String fileName, String tagName) {
+        JSONObject[][] data = null;
+
+        try {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = documentBuilderFactory.newDocumentBuilder();
+            Document document = db.parse(fileName);
+
+
+            NodeList nodeList = document.getElementsByTagName(tagName);
+            data = new JSONObject[nodeList.getLength()][1];
+            Node node = nodeList.item(0);
+            Element element;
+
+            for (int i = 0; i < nodeList.getLength(); i++) {
+
+                JSONObject jsonObject = new JSONObject();
+                node = nodeList.item(i);
+                element = (Element) node;
+
+                NodeList  nodeList1 = element.getChildNodes();
+                for (int k=0; k < element.getChildNodes().getLength(); k ++){
+
+                    if (nodeList1.item(k).getNodeName()!="#text") {
+                        String nodeName = nodeList1.item(k).getNodeName();
+                        jsonObject.put(nodeName, element.getElementsByTagName(nodeName).item(0).getTextContent() );
+
+                    }
+                }
+                data[i][0] = jsonObject;
+            }
+            return data;
+
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
 
 
 
