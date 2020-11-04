@@ -11,12 +11,12 @@
         </File>
     </Appenders>
     <Loggers>
-        <Logger name="com.pragmatic" level="all" additivity="false">
+        <Logger name="com.pragmatic" level="info" additivity="false">
             <AppenderRef ref="LogToFile"/>
             <AppenderRef ref="LogToConsole"/>
         </Logger>
 
-        <Root level="all">
+        <Root level="info">
             <AppenderRef ref="LogToFile"/>
             <AppenderRef ref="LogToConsole"/>
         </Root>
