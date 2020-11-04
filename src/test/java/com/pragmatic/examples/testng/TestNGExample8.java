@@ -1,28 +1,15 @@
-package com.pragmatic.testng;
+package com.pragmatic.examples.testng;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
  * Created by Pragmatic Test Labs
  *
- * @Auther Janesh Kodikara
+ * @Author Janesh Kodikara
  */
-public class TestNGExample4 {
+public class TestNGExample8 {
 
 
-
-    @BeforeMethod
-    public void beforeMethod(){
-        System.out.println("TestNGExample4.beforeMethod");
-    }
-
-
-    @AfterMethod
-    public void afterMethod(){
-        System.out.println("TestNGExample4.afterMethod");
-    }
 
     @Test
     public void testMethod1(){

@@ -1,16 +1,12 @@
-package com.pragmatic.testng;
+package com.pragmatic.examples.testng;
 
-import com.pragmatic.hrm.pages.LandingPage;
-import com.pragmatic.hrm.pages.LoginPage;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.*;
 
 
 /**
  * Created by Pragmatic Test Labs
  *
- * @Auther Janesh Kodikara
+ * @Author Janesh Kodikara
  */
 public class TestBase {
 

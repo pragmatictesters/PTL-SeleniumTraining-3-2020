@@ -1,13 +1,12 @@
-package com.pragmatic.testng;
+package com.pragmatic.examples.testng;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import sun.awt.windows.ThemeReader;
 
 /**
  * Created by Pragmatic Test Labs
  *
- * @Auther Janesh Kodikara
+ * @Author Janesh Kodikara
  */
 public class TestNGExample9 {
 

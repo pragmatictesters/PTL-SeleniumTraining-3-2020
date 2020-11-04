@@ -1,40 +1,44 @@
-package com.pragmatic.testng;
+package com.pragmatic.examples.testng;
 
-import org.testng.ITestContext;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
  * Created by Pragmatic Test Labs
  *
- * @Auther Janesh Kodikara
+ * @Author Janesh Kodikara
  */
+public class TestNGExample4 {
 
-public class TestNGExample12InvocationCount {
 
 
-    @BeforeMethod(firstTimeOnly = true)
-    public void beforeMethod() throws InterruptedException {
-        Thread.sleep(1000);
+    @BeforeMethod
+    public void beforeMethod(){
+        System.out.println("TestNGExample4.beforeMethod");
     }
 
-    @Test (invocationCount = 3)
+
+    @AfterMethod
+    public void afterMethod(){
+        System.out.println("TestNGExample4.afterMethod");
+    }
+
+    @Test
     public void testMethod1(){
 
         System.out.println("TestNGExample1.testMethod1");
     }
 
-   @Test (invocationCount = 3, invocationTimeOut = 1000)
+   @Test
     public void testMethod2(){
 
         System.out.println("TestNGExample2.testMethod1");
     }
 
-   @Test(invocationCount = 10)
-    public void testMethod3(ITestContext testContext){
+   @Test
+    public void testMethod3(){
 
-        int invocationCount = testContext.getAllTestMethods()[0].getCurrentInvocationCount();
-       System.out.println("invocationCount = " + invocationCount);
         System.out.println("TestNGExample3.testMethod1");
     }
 

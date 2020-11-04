@@ -1,25 +1,21 @@
-package com.pragmatic.testng;
+package com.pragmatic.examples.testng;
 
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
  * Created by Pragmatic Test Labs
  *
- * @Auther Janesh Kodikara
+ * @Author Janesh Kodikara
  */
-public class TestNGExample15 {
+public class TestNGExample11 {
 
 
-    @BeforeMethod
-    public void beforeMethod(){
-        System.out.println("TestNGExample15.beforeMethod");
-    }
-
-    @AfterMethod
-    public void afterMethod(){
-        System.out.println("TestNGExample15.afterMethod");
+    @BeforeMethod ()
+    public void beforeMethod() throws InterruptedException {
+        System.out.println("Sleeting ");
+        Thread.sleep(1000);
+        System.out.println("Waked up");
     }
 
     @Test
@@ -48,7 +44,6 @@ public class TestNGExample15 {
 
    @Test
     public void testMethod5(){
-
         System.out.println("TestNGExample5.testMethod1");
     }
 

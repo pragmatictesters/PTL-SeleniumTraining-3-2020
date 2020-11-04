@@ -1,17 +1,17 @@
-package com.pragmatic.testng;
+package com.pragmatic.examples.testng;
 
 import org.testng.annotations.Test;
 
 /**
  * Created by Pragmatic Test Labs
  *
- * @Auther Janesh Kodikara
+ * @Author Janesh Kodikara
  */
-public class TestNGExample8 {
+public class TestNGExample5 {
 
 
 
-    @Test
+    @Test (dependsOnMethods = {"testMethod2"})
     public void testMethod1(){
 
         System.out.println("TestNGExample1.testMethod1");

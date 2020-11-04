@@ -1,13 +1,13 @@
-package com.pragmatic.testng;
+package com.pragmatic.examples.testng;
 
 import org.testng.annotations.Test;
 
 /**
  * Created by Pragmatic Test Labs
  *
- * @Auther Janesh Kodikara
+ * @Author Janesh Kodikara
  */
-public class TestNGExample17 {
+public class TestNGExample2 {
 
 
 
@@ -23,7 +23,7 @@ public class TestNGExample17 {
         System.out.println("TestNGExample2.testMethod1");
     }
 
-   @Test
+   @Test (enabled = false)
     public void testMethod3(){
 
         System.out.println("TestNGExample3.testMethod1");

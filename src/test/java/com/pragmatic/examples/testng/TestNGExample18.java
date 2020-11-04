@@ -1,17 +1,19 @@
-package com.pragmatic.testng;
+package com.pragmatic.examples.testng;
 
 import org.testng.annotations.Test;
 
 /**
  * Created by Pragmatic Test Labs
  *
- * @Auther Janesh Kodikara
+ * @Author Janesh Kodikara
  */
-public class TestNGExample5 {
+
+@Test(groups = {"regression"})
+public class TestNGExample18  extends TestBase {
 
 
 
-    @Test (dependsOnMethods = {"testMethod2"})
+    @Test
     public void testMethod1(){
 
         System.out.println("TestNGExample1.testMethod1");
@@ -35,7 +37,7 @@ public class TestNGExample5 {
         System.out.println("TestNGExample4.testMethod1");
     }
 
-   @Test
+   @Test(groups = {"smoke"})
     public void testMethod5(){
 
         System.out.println("TestNGExample5.testMethod1");
