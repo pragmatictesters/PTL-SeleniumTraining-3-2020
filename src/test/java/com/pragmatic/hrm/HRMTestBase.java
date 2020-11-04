@@ -12,12 +12,19 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
 import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Pragmatic Test Labs (Private) Limited
@@ -42,19 +49,7 @@ public class HRMTestBase {
 
     }
 
-    private void initProperties() {
-        try {
-            Configuration config = new PropertiesConfiguration("hrm.properties");
-            BASE_URL = config.getString("base.url");
-            BROWSER_TYPE = config.getString("browser.type");
-            logger.info("Properties are initialized ");
 
-        } catch (ConfigurationException e) {
-            logger.error("Property Initialization Failed", e);
-            System.exit(-1);
-        }
-
-    }
 
 
     @BeforeMethod(groups = {"regression", "smoke"})
@@ -70,6 +65,20 @@ public class HRMTestBase {
 
         if (webDriver!=null){
             webDriver.quit();
+        }
+
+    }
+
+    private void initProperties() {
+        try {
+            Configuration config = new PropertiesConfiguration("hrm.properties");
+            BASE_URL = config.getString("base.url");
+            BROWSER_TYPE = config.getString("browser.type");
+            logger.info("Properties are initialized ");
+
+        } catch (ConfigurationException e) {
+            logger.error("Property Initialization Failed", e);
+            System.exit(-1);
         }
 
     }
@@ -93,10 +102,40 @@ public class HRMTestBase {
           options.setExperimentalOption("useAutomationExtension", false);
           webDriver= new ChromeDriver(options);
 
+      } else if (BROWSER_TYPE.equalsIgnoreCase("firefox")){
+          //TODO Upgrade the IDEA project to JDK 13
+          WebDriverManager.firefoxdriver().setup();
+          webDriver = new FirefoxDriver();
+
+      } else if (BROWSER_TYPE.equalsIgnoreCase("firefox-headless")){
+          //TODO Upgrade the IDEA project to JDK 13
+          FirefoxOptions options = new FirefoxOptions();
+          options.setHeadless(true);
+          WebDriverManager.firefoxdriver().setup();
+          webDriver = new FirefoxDriver(options);
+
+      } else if (BROWSER_TYPE.equalsIgnoreCase("ie")){
+          WebDriverManager.iedriver().setup();
+          webDriver = new InternetExplorerDriver();
+      } else if (BROWSER_TYPE.equalsIgnoreCase("safari")){
+          webDriver = new SafariDriver();
+
+      }else if (BROWSER_TYPE.equalsIgnoreCase("opera")){
+          WebDriverManager.operadriver().setup();
+          webDriver = new OperaDriver();
+
+      }else if (BROWSER_TYPE.equalsIgnoreCase("edge")){
+          WebDriverManager.edgedriver().setup();
+          webDriver = new EdgeDriver();
+
       } else {
           //TODO Add a custom error message here
+          System.exit(-1);
       }
 
+      webDriver.manage().window().maximize();
+      webDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+      logger.info("Browser is launched");
       return webDriver;
     }
 
@@ -133,6 +172,11 @@ public class HRMTestBase {
         if(checkbox.isSelected()){
             checkbox.click();
         }
+    }
+
+    public void clearAndType(WebElement txtElement, String textToType){
+        txtElement.clear();
+        txtElement.sendKeys(textToType);
     }
 
 
