@@ -28,6 +28,7 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
@@ -101,56 +102,55 @@ public class HRMTestBase {
 
     public WebDriver getBrowserInstance() {
 
-        if (BROWSER_TYPE.equalsIgnoreCase("chrome")) {
-            WebDriverManager.chromedriver().setup();
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("start-maximized");
-            options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
-            options.setExperimentalOption("useAutomationExtension", false);
-            webDriver = new ChromeDriver(options);
 
-        } else if (BROWSER_TYPE.equalsIgnoreCase("chrome-headless")) {
-            WebDriverManager.chromedriver().setup();
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless");
-            options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
-            options.setExperimentalOption("useAutomationExtension", false);
-            webDriver = new ChromeDriver(options);
+        switch (BROWSER_TYPE.toLowerCase()) {
+            case "chrome", "google-chrome" -> {
+                WebDriverManager.chromedriver().setup();
+                ChromeOptions options = new ChromeOptions();
+                options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
+                options.setExperimentalOption("useAutomationExtension", false);
+                webDriver = new ChromeDriver(options);
+            }
+            case "chrome-headless", "headless" -> {
+                WebDriverManager.chromedriver().setup();
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--headless");
+                options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
+                options.setExperimentalOption("useAutomationExtension", false);
+                webDriver = new ChromeDriver(options);
+            }
+            case "firefox", "mozilla" -> {
+                WebDriverManager.firefoxdriver().setup();
+                webDriver = new FirefoxDriver();
+            } case "firefox-headless" -> {
+                FirefoxOptions options = new FirefoxOptions();
+                options.setHeadless(true);
+                WebDriverManager.firefoxdriver().setup();
+                webDriver = new FirefoxDriver(options);
+            } case "opera" -> {
+                WebDriverManager.operadriver().setup();
+                webDriver = new OperaDriver();
+            } case  "ie" -> {
+                WebDriverManager.iedriver().setup();
+                webDriver = new InternetExplorerDriver();
+            } case "edge" -> {
+                WebDriverManager.edgedriver().setup();
+                webDriver = new EdgeDriver();
+            } case "safari" -> {
+                webDriver = new SafariDriver();
+            }default -> {
+                //TODO Add a custom error message here
+                logger.fatal("Valid browser type is not set.");
+                System.exit(-1);
+            }
 
-        } else if (BROWSER_TYPE.equalsIgnoreCase("firefox")) {
-            //TODO Upgrade the IDEA project to JDK 13
-            WebDriverManager.firefoxdriver().setup();
-            webDriver = new FirefoxDriver();
-
-        } else if (BROWSER_TYPE.equalsIgnoreCase("firefox-headless")) {
-            //TODO Upgrade the IDEA project to JDK 13
-            FirefoxOptions options = new FirefoxOptions();
-            options.setHeadless(true);
-            WebDriverManager.firefoxdriver().setup();
-            webDriver = new FirefoxDriver(options);
-
-        } else if (BROWSER_TYPE.equalsIgnoreCase("ie")) {
-            WebDriverManager.iedriver().setup();
-            webDriver = new InternetExplorerDriver();
-        } else if (BROWSER_TYPE.equalsIgnoreCase("safari")) {
-            webDriver = new SafariDriver();
-
-        } else if (BROWSER_TYPE.equalsIgnoreCase("opera")) {
-            WebDriverManager.operadriver().setup();
-            webDriver = new OperaDriver();
-
-        } else if (BROWSER_TYPE.equalsIgnoreCase("edge")) {
-            WebDriverManager.edgedriver().setup();
-            webDriver = new EdgeDriver();
-
-        } else {
-            //TODO Add a custom error message here
-            System.exit(-1);
         }
+
+
 
         webDriver.manage().window().maximize();
         webDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        logger.info("Browser is launched");
+        logger.info("Browser " + BROWSER_TYPE + " is launched");
         return webDriver;
     }
 
@@ -236,10 +236,9 @@ public class HRMTestBase {
     }
 
 
-
-    public static JSONObject[][] readXLFile(String fileName1){
+    public static JSONObject[][] readXLFile(String fileName1) {
         String fileName = fileName1;
-        int rowsInSheet =0 ;
+        int rowsInSheet = 0;
         JSONObject[][] data = null;
 
         try {
@@ -247,7 +246,7 @@ public class HRMTestBase {
             Workbook workbook = new XSSFWorkbook(excelFile);
             Sheet sheet = workbook.getSheetAt(0);
             rowsInSheet = sheet.getPhysicalNumberOfRows();
-            data = new JSONObject[rowsInSheet-1][1];
+            data = new JSONObject[rowsInSheet - 1][1];
 
             Iterator<Row> iterator = sheet.iterator();
 
@@ -255,33 +254,33 @@ public class HRMTestBase {
             Iterator<Cell> cellIterator = firstRow.iterator();
             String[] columns = new String[firstRow.getPhysicalNumberOfCells()];
             int columnID = 0;
-            while (cellIterator.hasNext()){
+            while (cellIterator.hasNext()) {
                 String value = cellIterator.next().getStringCellValue();
                 columns[columnID++] = value;
             }
 
 
-            while (iterator.hasNext()){
+            while (iterator.hasNext()) {
                 JSONObject jsonObject = new JSONObject();
 
                 Row currentRow = iterator.next();
                 //Iterator<Cell> cellIterator = currentRow.iterator();
                 cellIterator = currentRow.iterator();
-                columnID =0;
+                columnID = 0;
 
-                while (cellIterator.hasNext()){
+                while (cellIterator.hasNext()) {
                     String value = cellIterator.next().getStringCellValue();
                     jsonObject.put(columns[columnID++], value);
 
                 }
-                data[currentRow.getRowNum()-1][0]= jsonObject;
+                data[currentRow.getRowNum() - 1][0] = jsonObject;
 
             }
             return data;
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return data;
@@ -309,12 +308,12 @@ public class HRMTestBase {
                 node = nodeList.item(i);
                 element = (Element) node;
 
-                NodeList  nodeList1 = element.getChildNodes();
-                for (int k=0; k < element.getChildNodes().getLength(); k ++){
+                NodeList nodeList1 = element.getChildNodes();
+                for (int k = 0; k < element.getChildNodes().getLength(); k++) {
 
-                    if (nodeList1.item(k).getNodeName()!="#text") {
+                    if (nodeList1.item(k).getNodeName() != "#text") {
                         String nodeName = nodeList1.item(k).getNodeName();
-                        jsonObject.put(nodeName, element.getElementsByTagName(nodeName).item(0).getTextContent() );
+                        jsonObject.put(nodeName, element.getElementsByTagName(nodeName).item(0).getTextContent());
 
                     }
                 }
@@ -332,6 +331,11 @@ public class HRMTestBase {
         return data;
     }
 
+
+    public void selecItemtByVisibleText(String visibleText, WebElement element) {
+
+        new Select(element).selectByVisibleText(visibleText);
+    }
 
 
 }
