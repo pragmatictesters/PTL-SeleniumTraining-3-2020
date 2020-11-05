@@ -6,4 +6,7 @@
    * Selecting items from dropdowns 
    * Take Screenshots 
    * 
+ 4. Implicit wait 
+ 5. Git : File color codes , Reversing the changes 
+ 6. Upgrading to JDK 15 . Changes to the deprecated method  (Action and Wait)
  
