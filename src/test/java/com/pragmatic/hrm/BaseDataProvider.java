@@ -7,7 +7,7 @@ import org.testng.annotations.DataProvider;
  *
  * @Author Janesh Kodikara
  */
-public class TestData {
+public class BaseDataProvider {
 
     @DataProvider(name = "user_credentials")
     public Object[][] getUserCredentials() {
@@ -24,18 +24,18 @@ public class TestData {
 
     @DataProvider(name = "user_credentials_csv")
     public Object[][] getUserCredentialsCSV() {
-        return HRMTestBase.readCSV("src/test/resources/user_credentials.csv");
+        return HRMTestBase.readCSV("test_data/user_credentials.csv");
 
     }
 
     @DataProvider(name = "user_credentials_xl")
     public Object[][] getUserCredentialsXL() {
-        return HRMTestBase.readXLFile("src/test/resources/user_credentials.xlsx");
+        return HRMTestBase.readXLFile("test_data/user_credentials.xlsx");
     }
 
     @DataProvider(name = "user_credentials_xml")
     public Object[][] getUserCredentialsXML() {
-        return HRMTestBase.readXML("src/test/resources/user_credentials.xml", "row");
+        return HRMTestBase.readXML("test_data/user_credentials.xml", "row");
     }
 
 
