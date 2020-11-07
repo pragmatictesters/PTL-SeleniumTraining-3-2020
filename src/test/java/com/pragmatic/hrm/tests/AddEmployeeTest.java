@@ -16,10 +16,9 @@ import org.testng.annotations.Test;
 public class AddEmployeeTest extends HRMTestBase {
 
 
-
     @Test
-    public void addNewEmployeeWithMandatoryInformation(){
-        login("Admin","Ptl@#321");
+    public void addNewEmployeeWithMandatoryInformation() {
+        login("Admin", "Ptl@#321");
         MenuPage menuPage = PageFactory.initElements(webDriver, MenuPage.class);
         AddNewEmployeePage addNewEmployeePage = menuPage.navigateToAddEmployeePage(webDriver);
         addNewEmployeePage.typeFirstname("Janesh").typeLastname("Kodikara").clickSaveWithSuccess();
@@ -27,8 +26,30 @@ public class AddEmployeeTest extends HRMTestBase {
 
 
     @Test
-    public void AddNewEmployeeWithoutFirstName(){
-        login("Admin","Ptl@#321");
+    public void addNewEmployeeWithUserCredentialsEnabled() {
+        login("Admin", "Ptl@#321");
+        MenuPage menuPage = PageFactory.initElements(webDriver, MenuPage.class);
+        AddNewEmployeePage addNewEmployeePage = menuPage.navigateToAddEmployeePage(webDriver);
+        addNewEmployeePage.typeFirstname("Janesh").typeLastname("Kodikara").checkCreateLoginDetails().selectStatus("Enabled");
+        addNewEmployeePage.clickSaveWithSuccess();
+
+    }
+
+
+    @Test
+    public void addNewEmployeeWithUserCredentialsDisabled() {
+        login("Admin", "Ptl@#321");
+        MenuPage menuPage = PageFactory.initElements(webDriver, MenuPage.class);
+        AddNewEmployeePage addNewEmployeePage = menuPage.navigateToAddEmployeePage(webDriver);
+        addNewEmployeePage.typeFirstname("Janesh").typeLastname("Kodikara").checkCreateLoginDetails().selectStatus("Disabled");
+        addNewEmployeePage.clickSaveWithSuccess();
+
+    }
+
+
+    @Test
+    public void addNewEmployeeWithoutFirstName() {
+        login("Admin", "Ptl@#321");
         MenuPage menuPage = PageFactory.initElements(webDriver, MenuPage.class);
         AddNewEmployeePage addNewEmployeePage = menuPage.navigateToAddEmployeePage(webDriver);
         addNewEmployeePage.typeFirstname("").typeLastname("Kodikara").clickSaveWithError();
@@ -37,8 +58,8 @@ public class AddEmployeeTest extends HRMTestBase {
 
 
     @Test
-    public void AddNewEmployeeWithoutLastName(){
-        login("Admin","Ptl@#321");
+    public void addNewEmployeeWithoutLastName() {
+        login("Admin", "Ptl@#321");
         MenuPage menuPage = PageFactory.initElements(webDriver, MenuPage.class);
         AddNewEmployeePage addNewEmployeePage = menuPage.navigateToAddEmployeePage(webDriver);
         addNewEmployeePage.typeFirstname("").typeLastname("").clickSaveWithError();
@@ -47,6 +68,17 @@ public class AddEmployeeTest extends HRMTestBase {
     }
 
 
+    @Test
+    public void addNewEmployeeWithProfilePicture() {
+
+        login("Admin", "Ptl@#321");
+        MenuPage menuPage = PageFactory.initElements(webDriver, MenuPage.class);
+        AddNewEmployeePage addNewEmployeePage = menuPage.navigateToAddEmployeePage(webDriver);
+        addNewEmployeePage.typeFirstname("janesh").typeLastname("kodikara")
+                .uplaodProfile("src/test/resources/good-pic.png")
+                .clickSaveWithSuccess();
+        System.out.println("pause");
+    }
 
 
 }

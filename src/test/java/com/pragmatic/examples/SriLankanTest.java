@@ -13,6 +13,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
 import java.util.Collections;
 
 /**
@@ -63,11 +64,13 @@ public class SriLankanTest {
     }
 
     private void typeAndSelect(String text, WebElement webElement) {
+
+
         Actions actions = new Actions(webDriver);
         actions.sendKeys(webElement, text)
-                .pause(2000)
+                .pause(Duration.ofSeconds(2))
                 .sendKeys(Keys.ARROW_DOWN)
-                .pause(2000)
+                .pause(Duration.ofSeconds(2))
                 .sendKeys(Keys.ENTER)
                 .build()
                 .perform();

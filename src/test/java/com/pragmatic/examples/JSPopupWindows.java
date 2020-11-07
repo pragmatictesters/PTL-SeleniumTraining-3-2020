@@ -6,8 +6,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -106,8 +104,8 @@ public class JSPopupWindows {
     public void testTimingAlert(){
         webDriver.findElement(By.xpath("//button[text()='Timing Alert']")).click();
 
-        WebDriverWait wait = new WebDriverWait(webDriver, 5);
-        wait.until(ExpectedConditions.alertIsPresent());
+//        WebDriverWait wait = new WebDriverWait(webDriver, 5);
+//        wait.until(ExpectedConditions.alertIsPresent());
 
 
         String message = webDriver.switchTo().alert().getText();

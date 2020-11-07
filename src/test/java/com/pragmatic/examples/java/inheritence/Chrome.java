@@ -9,7 +9,7 @@ public class Chrome extends Browser {
 
     @Override
     public Chrome navigate(String url) {
-        System.out.printf("Navigating to `%s` with chrome ", url);
+        System.out.printf("Navigating to %s with chrome ", url);
         return this;
     }
 }

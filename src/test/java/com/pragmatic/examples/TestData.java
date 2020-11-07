@@ -1,4 +1,4 @@
-package com.pragmatic.util;
+package com.pragmatic.examples;
 
 import org.testng.annotations.DataProvider;
 
@@ -21,5 +21,6 @@ public class TestData {
 
         };
     }
+
 
 }

@@ -29,3 +29,6 @@ test-output/
 # Intellij
 .idea/
 *.iml
+
+#Screenshots
+/screens/

@@ -1,5 +1,7 @@
-# Pragmatic Learning : Selenium Training 2020 (3)
-Sample project created for Selenium Training (Oct-Nov 2020)
+# Pragmatic Learning : Selenium  Project 
+This is a sample Selenium Project with application of various tools, apis, techniques, best practices etc 
+This project will be updated with the aim of sharing the same with the Selenium testing community.
+
 
    
 ## Audience 
@@ -8,9 +10,9 @@ This project is to be used by Pragmatic Learning trainees.
 ## Tools Used 
    * IntelliJ IDEA community Edition 
    * Maven
-   * JDK 1.8 
+   * JDK 15  [Will not work with 1.8]
    * Selenium WebDriver 
-   * TestNG 
+   * TestNG , ExtentReport, ExtentReportTestNGAdapter
    * ReportNG 
    * WebDriverManager 
    * Apache Commons Configuration 

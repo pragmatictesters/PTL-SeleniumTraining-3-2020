@@ -1,60 +1,20 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 
-<suite name="PTL-HRM-Tests"  >
-
-    <test name="parallel-tests" thread-count="2" parallel="methods"  enabled="false">
-
-        <classes>
-            <class name="com.pragmatic.testng.TestNGExample11"></class>
-            <class name="com.pragmatic.testng.TestNGExample12InvocationCount"></class>
-
-        </classes>
-
-    </test>
-    
-    <test name="test1" enabled="false">
-        <classes>
-            <class name="com.pragmatic.testng.TestNGExample1"></class>
-            <class name="com.pragmatic.testng.TestNGExample2"></class>
-            <class name="com.pragmatic.testng.TestNGExample4"></class>
-
-        </classes>
-        
-        
-    </test>
+<suite name="PTL-HRM-Tests">
 
 
-
-  
-    <test name="run-regression-tests" enabled="false">
-
+    <test name="regression-tests" enabled="true">
         <groups>
             <run>
                 <include name="regression"/>
             </run>
         </groups>
 
-        <classes>
-            <class name="com.pragmatic.hrm.tests.LoginTest"></class>
-        </classes>
-        
-    </test>
-
-    <test name="run-smoke-tests" enabled="true">
-
-        <groups>
-            <run>
-                <include name="smoke"/>
-            </run>
-        </groups>
-
-        <classes>
-            <class name="com.pragmatic.hrm.tests.LoginTest"></class>
-        </classes>
+        <packages>
+            <package name="com.pragmatic.hrm.tests"></package>
+        </packages>
 
     </test>
-
-
 
 
     <listeners>

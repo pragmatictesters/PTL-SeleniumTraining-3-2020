@@ -1,5 +1,6 @@
 package com.pragmatic.hrm;
 
+import com.aventstack.extentreports.testng.listener.ExtentITestListenerClassAdapter;
 import com.pragmatic.hrm.pages.LandingPage;
 import com.pragmatic.hrm.pages.LoginPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -9,6 +10,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
@@ -17,6 +19,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.simple.JSONObject;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -32,6 +36,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Listeners;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -52,6 +57,8 @@ import java.util.concurrent.TimeUnit;
  *
  * @Author Janesh Kodikara
  */
+
+@Listeners({ExtentITestListenerClassAdapter.class})
 public class HRMTestBase {
 
     public WebDriver webDriver;
@@ -93,7 +100,7 @@ public class HRMTestBase {
             logger.info("Properties are initialized ");
 
         } catch (ConfigurationException e) {
-            logger.error("Property Initialization Failed", e);
+            logger.fatal("Property Initialization Failed", e);
             System.exit(-1);
         }
 
@@ -122,30 +129,35 @@ public class HRMTestBase {
             case "firefox", "mozilla" -> {
                 WebDriverManager.firefoxdriver().setup();
                 webDriver = new FirefoxDriver();
-            } case "firefox-headless" -> {
+            }
+            case "firefox-headless" -> {
                 FirefoxOptions options = new FirefoxOptions();
                 options.setHeadless(true);
                 WebDriverManager.firefoxdriver().setup();
                 webDriver = new FirefoxDriver(options);
-            } case "opera" -> {
+            }
+            case "opera" -> {
                 WebDriverManager.operadriver().setup();
                 webDriver = new OperaDriver();
-            } case  "ie" -> {
+            }
+            case "ie" -> {
                 WebDriverManager.iedriver().setup();
                 webDriver = new InternetExplorerDriver();
-            } case "edge" -> {
+            }
+            case "edge" -> {
                 WebDriverManager.edgedriver().setup();
                 webDriver = new EdgeDriver();
-            } case "safari" -> {
+            }
+            case "safari" -> {
                 webDriver = new SafariDriver();
-            }default -> {
+            }
+            default -> {
                 //TODO Add a custom error message here
                 logger.fatal("Valid browser type is not set.");
                 System.exit(-1);
             }
 
         }
-
 
 
         webDriver.manage().window().maximize();
@@ -337,5 +349,15 @@ public class HRMTestBase {
         new Select(element).selectByVisibleText(visibleText);
     }
 
+
+    public void takeScreenshot(String filename) {
+
+        try {
+            File srcFile = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE);
+            FileUtils.copyFile(srcFile, new File(filename));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

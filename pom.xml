@@ -19,6 +19,11 @@
         <reportng.version>1.1.4</reportng.version>
         <guice.version>4.2.3</guice.version>
         <commons.configuration.version>2.7</commons.configuration.version>
+        <extentreports-testng-adapter.version>1.2.2</extentreports-testng-adapter.version>
+        <extentreports.version>5.0.4</extentreports.version>
+        <log4j-api.version>${log4j-core.version}</log4j-api.version>
+        <log4j-core.version>2.13.3</log4j-core.version>
+        <commons-configuration.version>1.10</commons-configuration.version>
     </properties>
 
 
@@ -94,7 +99,7 @@
         <dependency>
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>
-            <version>1.10</version>
+            <version>${commons-configuration.version}</version>
         </dependency>
 
 
@@ -102,19 +107,31 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.13.3</version>
+            <version>${log4j-core.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.13.3</version>
+            <version>${log4j-api.version}</version>
         </dependency>
 
 
+        <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports -->
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>${extentreports.version}</version>
+        </dependency>
 
 
+        <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports-testng-adapter -->
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports-testng-adapter</artifactId>
+            <version>${extentreports-testng-adapter.version}</version>
+        </dependency>
 
     </dependencies>
 
@@ -125,16 +142,26 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.5</version>
                 <configuration>
-                    <properties> <property>
-                        <name>usedefaultlisteners</name>
-                        <value>false</value>
-                    </property>
+                    <properties>
+                        <property>
+                            <name>usedefaultlisteners</name>
+                            <value>false</value>
+                        </property>
                         <property>
                             <name>listener</name>
                             <value>org.uncommons.reportng.HTMLReporter,
                                 org.uncommons.reportng.JUnitXMLReporter
                             </value>
-                        </property> </properties>
+                        </property>
+                    </properties>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>14</source>
+                    <target>14</target>
                 </configuration>
             </plugin>
         </plugins>

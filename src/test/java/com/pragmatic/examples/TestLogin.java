@@ -1,6 +1,5 @@
-package com.pragmatic.hrm;
+package com.pragmatic.examples;
 
-import com.pragmatic.util.TestData;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -14,16 +13,18 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
+
 /**
  * Created by Pragmatic Test Labs
  *
- * @Auther Janesh Kodikara
+ * @Author Janesh Kodikara
  */
 public class TestLogin {
 
     public static final String BASE_URL = "http://hrm.pragmatictestlabs.com";
+    private final String USERNAME = "Admin";
     WebDriver webDriver;
-
 
 
     @BeforeClass
@@ -56,13 +57,14 @@ public class TestLogin {
     public void testLoginWithKeyboardActions(){
         WebElement txtUsername = webDriver.findElement(By.id("txtUsername"));
 
+
         Actions actions = new Actions(webDriver);
         actions.sendKeys(txtUsername, "Admin")
-                .pause(500)
+                .pause(Duration.ofMillis(500))
                 .sendKeys(Keys.TAB)
-                .pause(500)
+                .pause(Duration.ofMillis(500))
                 .sendKeys("Ptl@#321")
-                .pause(500)
+                .pause(Duration.ofMillis(500))
                 .sendKeys(Keys.ENTER)
                 .build()
                 .perform();
@@ -76,7 +78,7 @@ public class TestLogin {
 
 
         //Type username , password and click login
-        webDriver.findElement(By.name("txtUsername")).sendKeys("Admin");
+        webDriver.findElement(By.name("txtUsername")).sendKeys(USERNAME);
         webDriver.findElement(By.name("txtPassword")).sendKeys("Ptl@#321");
         webDriver.findElement(By.name("txtUsername")).submit();
 

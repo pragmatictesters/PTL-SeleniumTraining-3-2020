@@ -1,8 +1,10 @@
 package com.pragmatic.hrm.tests;
 
 import com.pragmatic.hrm.HRMTestBase;
+import com.pragmatic.hrm.TestData;
 import com.pragmatic.hrm.pages.LandingPage;
 import com.pragmatic.hrm.pages.LoginPage;
+import org.json.simple.JSONObject;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -49,10 +51,43 @@ public class LoginTest extends HRMTestBase {
         Assert.assertEquals(loginPage.getErrorMessage(), "Password cannot be empty");
     }
 
+    @Test(groups = {"regression"}, dataProvider = "user_credentials", dataProviderClass = TestData.class)
+    public void testInvalidUserLogin(String username, String passowrd, String expected_resullt) {
+        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
+        loginPage.typeUsername(username).typePassword(passowrd).clickLoginButtonWithError();
+        Assert.assertEquals(loginPage.getErrorMessage(), expected_resullt);
+    }
+
+    @Test(groups = {"regression"}, dataProvider = "user_credentials_csv", dataProviderClass = TestData.class)
+    public void testInvalidUserLoginDPCSV(JSONObject credentials) {
+
+        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
+        loginPage.typeUsername(credentials.get("username").toString())
+                .typePassword(credentials.get("password").toString())
+                .clickLoginButtonWithError();
+        Assert.assertEquals(loginPage.getErrorMessage(), credentials.get("expected_outcome").toString());
+    }
 
 
+    @Test(groups = {"regression"}, dataProvider = "user_credentials_xl", dataProviderClass = TestData.class)
+    public void testInvalidUserLoginDPXL(JSONObject credentials) {
 
+        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
+        loginPage.typeUsername(credentials.get("username").toString())
+                .typePassword(credentials.get("password").toString())
+                .clickLoginButtonWithError();
+        Assert.assertEquals(loginPage.getErrorMessage(), credentials.get("expected_outcome").toString());
+    }
 
+    @Test(groups = {"regression"}, dataProvider = "user_credentials_xml", dataProviderClass = TestData.class)
+    public void testInvalidUserLoginDPXML(JSONObject credentials) {
+
+        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
+        loginPage.typeUsername(credentials.get("username").toString())
+                .typePassword(credentials.get("password").toString())
+                .clickLoginButtonWithError();
+        Assert.assertEquals(loginPage.getErrorMessage(), credentials.get("expected_outcome").toString());
+    }
 
 
 }
