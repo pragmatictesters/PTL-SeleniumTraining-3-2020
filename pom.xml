@@ -6,7 +6,21 @@
 
     <groupId>pragmatic.com</groupId>
     <artifactId>selenium</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
+
+    <name>Pragmatic Learning : Selenium WebDriver (Java)</name>
+    <description>This is a sample Selenium WebDriver Java project created to share with the Pragmatic Learners
+    </description>
+    <url>http://pragmatictestlabs.com/training/</url>
+
+    <developers>
+        <developer>
+            <name>Janesh Kodikara</name>
+            <email>janesh@pragmatictesters.com</email>
+            <url>http://pragmatictestlabs.com</url>
+            <organization>Pragmatic Test Labs (Private) Limited</organization>
+        </developer>
+    </developers>
 
     <properties>
         <selenium.version>4.0.0-alpha-6</selenium.version>
