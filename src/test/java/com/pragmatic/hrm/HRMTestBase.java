@@ -19,10 +19,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.simple.JSONObject;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -32,7 +29,9 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
@@ -47,6 +46,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -360,4 +360,55 @@ public class HRMTestBase {
         }
     }
 
+    public void waitForElementPresence(By locator) {
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+    }
+
+
+    public void waitForElementPresence(WebElement webElement) {
+
+        By by = getByFromElement(webElement);
+        waitForElementPresence(by);
+    }
+
+    private By getByFromElement(WebElement element) {
+
+        By by = null;
+        String[] pathVariables = (element.toString()
+                .split("->")[1].replaceFirst("(?s)(.*)\\]", "$1" + "")).split(":");
+
+        String selector = pathVariables[0].trim();
+        String value = pathVariables[1].trim();
+
+        switch (selector) {
+            case "id":
+                by = By.id(value);
+                break;
+            case "className":
+                by = By.className(value);
+                break;
+            case "tagName":
+                by = By.tagName(value);
+                break;
+            case "xpath":
+                by = By.xpath(value);
+                break;
+            case "cssSelector":
+                by = By.cssSelector(value);
+                break;
+            case "linkText":
+                by = By.linkText(value);
+                break;
+            case "name":
+                by = By.name(value);
+                break;
+            case "partialLinkText":
+                by = By.partialLinkText(value);
+                break;
+            default:
+                throw new IllegalStateException("locator : " + selector + " not found!!!");
+        }
+        return by;
+    }
 }
