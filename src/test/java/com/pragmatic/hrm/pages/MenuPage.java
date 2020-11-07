@@ -6,10 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 /**
  * Created by Pragmatic Test Labs (Private) Limited
@@ -29,14 +25,10 @@ public class MenuPage extends HRMTestBase {
     public AddNewEmployeePage navigateToAddEmployeePage(WebDriver webDriver) {
 
         mnuPIM.click();
-        //sleep(5000); //TODO need to incorporate wait until method here
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='menu_pim_addEmployee']")));
+        waitForElementPresence(By.xpath("//*[@id='menu_pim_addEmployee']"));
         mnuAddEmployee.click();
         return PageFactory.initElements(webDriver, AddNewEmployeePage.class);
     }
-
-
 
 
 }
