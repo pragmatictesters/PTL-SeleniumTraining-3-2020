@@ -1,5 +1,5 @@
 
-Plan for the day - 04 November 2020 
+#Plan for the day - 04 November 2020 
 1. Introduce the concept of refactoring and demonstrate refactoring in IntelliJ IDEA 
 2. Add common methods into HRMTestBase.java 
    * Check 
@@ -11,4 +11,3 @@ Plan for the day - 04 November 2020
 3. Using Markdown in GitHub Projects 
 4. Add options to work with more browsers 
 4. Check the status of manual test cases 
-   
