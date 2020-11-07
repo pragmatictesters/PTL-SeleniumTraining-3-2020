@@ -3,10 +3,24 @@
 <suite name="PTL-HRM-Tests">
 
 
-    <test name="regression-tests" enabled="true">
+    <test name="regression-tests" enabled="false">
         <groups>
             <run>
                 <include name="regression"/>
+            </run>
+        </groups>
+
+        <packages>
+            <package name="com.pragmatic.hrm.tests"></package>
+        </packages>
+
+    </test>
+
+
+    <test name="regression-tests" enabled="true">
+        <groups>
+            <run>
+                <include name="smoke"/>
             </run>
         </groups>
 
@@ -21,5 +35,5 @@
         <listener class-name="org.uncommons.reportng.HTMLReporter"/>
         <listener class-name="org.uncommons.reportng.JUnitXMLReporter"/>
     </listeners>
-    
+
 </suite>
