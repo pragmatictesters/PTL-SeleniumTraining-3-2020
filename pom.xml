@@ -146,6 +146,12 @@
             <artifactId>extentreports-testng-adapter</artifactId>
             <version>${extentreports-testng-adapter.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>5.5.0</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 

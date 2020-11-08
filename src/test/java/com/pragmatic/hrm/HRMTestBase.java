@@ -32,10 +32,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Listeners;
+import org.testng.annotations.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -76,6 +73,14 @@ public class HRMTestBase {
     }
 
 
+    @AfterSuite(alwaysRun = true, groups = {"regression", "smoke"})
+    public void afterSuite(){
+        if (webDriver!= null){
+            webDriver.close();
+        }
+    }
+
+
     @BeforeMethod(groups = {"regression", "smoke"})
     public void beforeMethod() {
         webDriver = getBrowserInstance();
@@ -94,7 +99,7 @@ public class HRMTestBase {
 
     private void initProperties() {
         try {
-            Configuration config = new PropertiesConfiguration("hrm.properties");
+            Configuration config = new PropertiesConfiguration("conf/hrm.properties");
             BASE_URL = config.getString("base.url");
             BROWSER_TYPE = config.getString("browser.type");
             logger.info("Properties are initialized ");
@@ -159,9 +164,8 @@ public class HRMTestBase {
 
         }
 
-
         webDriver.manage().window().maximize();
-        webDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        webDriver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
         logger.info("Browser " + BROWSER_TYPE + " is launched");
         return webDriver;
     }
@@ -169,7 +173,7 @@ public class HRMTestBase {
 
     public LandingPage login(String userName, String password) {
         LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
-        LandingPage landingPage = loginPage.typeUsername(userName).typePassword(password).clickLoginWithSuccess(webDriver);
+        LandingPage landingPage = loginPage.typeUsername(userName).typePassword(password).clickLoginWithSuccess();
         return landingPage;
 
     }

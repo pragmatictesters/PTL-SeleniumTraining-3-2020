@@ -24,7 +24,7 @@ public class LoginTest extends HRMTestBase {
     @Test(groups = {"smoke", "regression"})
     public void testLoginWithValidCredentials(){
         LoginPage loginPage= PageFactory.initElements(webDriver,LoginPage.class);
-        LandingPage landingPage = loginPage.typeUsername("Admin").typePassword("Ptl@#321").clickLoginWithSuccess(webDriver);
+        LandingPage landingPage = loginPage.typeUsername("Admin").typePassword("Ptl@#321").clickLoginWithSuccess();
         Assert.assertEquals(landingPage.getWelcomeMessage(), "Welcome Admin");
     }
 

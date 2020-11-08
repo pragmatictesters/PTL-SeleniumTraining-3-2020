@@ -1,6 +1,6 @@
 package com.pragmatic.hrm.pages;
 
-import org.openqa.selenium.WebDriver;
+import com.pragmatic.hrm.HRMTestBase;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -10,7 +10,7 @@ import org.openqa.selenium.support.PageFactory;
  *
  * @Author Janesh Kodikara
  */
-public class LoginPage {
+public class LoginPage  extends HRMTestBase {
 
 
     //Elements
@@ -60,7 +60,7 @@ public class LoginPage {
     }
 
 
-    public LandingPage clickLoginWithSuccess(WebDriver webDriver){
+    public LandingPage clickLoginWithSuccess(){
         btnLogin.click();
         return PageFactory.initElements(webDriver, LandingPage.class);
     }
@@ -70,6 +70,8 @@ public class LoginPage {
     }
 
 
-
-
+    public LoginPage accessLoginPage() {
+        webDriver.get(BASE_URL);
+        return this;
+    }
 }
