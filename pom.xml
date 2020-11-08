@@ -23,13 +23,13 @@
     </developers>
 
     <properties>
-        <selenium.version>4.0.0-alpha-6</selenium.version>
+        <selenium-java.version>4.0.0-alpha-6</selenium-java.version>
         <testng.version>7.1.0</testng.version>
         <webdrivermanager.version>4.2.2</webdrivermanager.version>
-        <commons.csv.version>1.8</commons.csv.version>
-        <json.simple.version>1.1.1</json.simple.version>
-        <poi.ooxml.version>3.15</poi.ooxml.version>
-        <javax.xmlparser.version>1.4.5</javax.xmlparser.version>
+        <commons-csv.version>1.8</commons-csv.version>
+        <json-simple.version>1.1.1</json-simple.version>
+        <poi-ooxml.version>3.15</poi-ooxml.version>
+        <javax-api.version>1.4.5</javax-api.version>
         <reportng.version>1.1.4</reportng.version>
         <guice.version>4.2.3</guice.version>
         <commons.configuration.version>2.7</commons.configuration.version>
@@ -38,62 +38,57 @@
         <log4j-api.version>${log4j-core.version}</log4j-api.version>
         <log4j-core.version>2.13.3</log4j-core.version>
         <commons-configuration.version>1.10</commons-configuration.version>
+        <cucumber-java.version>5.5.0</cucumber-java.version>
+        <allure-testng.version>2.13.6</allure-testng.version>
+        <allure-maven.version>2.9</allure-maven.version>
     </properties>
 
 
-
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>${selenium.version}</version>
+            <version>${selenium-java.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
             <version>${webdrivermanager.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-csv -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
-            <version>${commons.csv.version}</version>
+            <version>${commons-csv.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
-            <version>${json.simple.version}</version>
+            <version>${json-simple.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>${poi.ooxml.version}</version>
+            <version>${poi-ooxml.version}</version>
         </dependency>
 
 
-        <!-- https://mvnrepository.com/artifact/javax.xml.parsers/jaxp-api -->
         <dependency>
             <groupId>javax.xml.parsers</groupId>
             <artifactId>jaxp-api</artifactId>
-            <version>${javax.xmlparser.version}</version>
+            <version>${javax-api.version}</version>
         </dependency>
 
 
-        <!-- https://mvnrepository.com/artifact/org.uncommons/reportng -->
         <dependency>
             <groupId>org.uncommons</groupId>
             <artifactId>reportng</artifactId>
@@ -101,15 +96,12 @@
         </dependency>
 
 
-        <!-- https://mvnrepository.com/artifact/com.google.inject/guice -->
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
             <version>${guice.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-configuration2 -->
-        <!-- https://mvnrepository.com/artifact/commons-configuration/commons-configuration -->
         <dependency>
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>
@@ -117,14 +109,12 @@
         </dependency>
 
 
-        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>${log4j-core.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
@@ -132,7 +122,6 @@
         </dependency>
 
 
-        <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports -->
         <dependency>
             <groupId>com.aventstack</groupId>
             <artifactId>extentreports</artifactId>
@@ -140,7 +129,6 @@
         </dependency>
 
 
-        <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports-testng-adapter -->
         <dependency>
             <groupId>com.aventstack</groupId>
             <artifactId>extentreports-testng-adapter</artifactId>
@@ -149,8 +137,13 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>5.5.0</version>
-            <scope>test</scope>
+            <version>${cucumber-java.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>${allure-testng.version}</version>
         </dependency>
 
     </dependencies>
@@ -160,21 +153,38 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.5</version>
+                <version>2.22.2</version>
                 <configuration>
-                    <properties>
-                        <property>
-                            <name>usedefaultlisteners</name>
-                            <value>false</value>
-                        </property>
-                        <property>
-                            <name>listener</name>
-                            <value>org.uncommons.reportng.HTMLReporter,
-                                org.uncommons.reportng.JUnitXMLReporter
-                            </value>
-                        </property>
-                    </properties>
+
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>run-tests.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+
+                    <!--                    ReportNG Integration -->
+                    <!--                    <properties>-->
+                    <!--                        <property>-->
+                    <!--                            <name>usedefaultlisteners</name>-->
+                    <!--                            <value>false</value>-->
+                    <!--                        </property>-->
+                    <!--                        <property>-->
+                    <!--                            <name>listener</name>-->
+                    <!--                            <value>org.uncommons.reportng.HTMLReporter,-->
+                    <!--                                org.uncommons.reportng.JUnitXMLReporter-->
+                    <!--                            </value>-->
+                    <!--                        </property>-->
+                    <!--                    </properties>-->
                 </configuration>
+                <dependencies>
+                    <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <version>1.9.4</version>
+                    </dependency>
+
+
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -186,6 +196,18 @@
             </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <excludeDefaults>true</excludeDefaults>
+        <plugins>
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>${allure-maven.version}</version>
+            </plugin>
+        </plugins>
+
+    </reporting>
 
 
 </project>

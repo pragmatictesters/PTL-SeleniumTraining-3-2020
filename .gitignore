@@ -32,3 +32,6 @@ test-output/
 
 #Screenshots
 /screens/
+
+#test resulst
+/allure-results/
