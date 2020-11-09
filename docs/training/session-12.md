@@ -6,4 +6,4 @@
    * Learning best practices from GitHub projects 
    * Sikuli Integration 
    * Allure report Integration 
-   * 
+   * Java faker for random data 
