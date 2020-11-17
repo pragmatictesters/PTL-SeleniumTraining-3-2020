@@ -1,9 +1,10 @@
 package com.pragmatic.hrm;
 
+import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.testng.listener.ExtentITestListenerClassAdapter;
+import com.github.javafaker.Faker;
 import com.pragmatic.hrm.pages.LandingPage;
 import com.pragmatic.hrm.pages.LoginPage;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -20,14 +21,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.opera.OperaDriver;
-import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -44,10 +37,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.time.Duration;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Pragmatic Test Labs (Private) Limited
@@ -58,9 +49,13 @@ import java.util.concurrent.TimeUnit;
 @Listeners({ExtentITestListenerClassAdapter.class})
 public class HRMTestBase {
 
+    private final BrowserManager browserManager = new BrowserManager();
     public WebDriver webDriver;
     public static String BASE_URL;
     public static String BROWSER_TYPE;
+    public Faker faker;
+    public ExtentReports extent = new ExtentReports();
+
 
     static final Logger logger = LogManager.getLogger(HRMTestBase.class.getName());
 
@@ -69,21 +64,21 @@ public class HRMTestBase {
     public void beforeSuite() {
         logger.info("Test is started");
         initProperties();
+        browserManager.initWebDrivers(BROWSER_TYPE);
+        faker = new Faker();
 
     }
 
 
     @AfterSuite(alwaysRun = true, groups = {"regression", "smoke"})
     public void afterSuite(){
-        if (webDriver!= null){
-            webDriver.close();
-        }
+
     }
 
 
     @BeforeMethod(groups = {"regression", "smoke"})
     public void beforeMethod() {
-        webDriver = getBrowserInstance();
+        webDriver = browserManager.getBrowserInstance(BROWSER_TYPE);
         webDriver.get(BASE_URL);
     }
 
@@ -104,6 +99,7 @@ public class HRMTestBase {
             BROWSER_TYPE = config.getString("browser.type");
             logger.info("Properties are initialized ");
 
+
         } catch (ConfigurationException e) {
             logger.fatal("Property Initialization Failed", e);
             System.exit(-1);
@@ -115,59 +111,7 @@ public class HRMTestBase {
     public WebDriver getBrowserInstance() {
 
 
-        switch (BROWSER_TYPE.toLowerCase()) {
-            case "chrome", "google-chrome" -> {
-                WebDriverManager.chromedriver().setup();
-                ChromeOptions options = new ChromeOptions();
-                options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
-                options.setExperimentalOption("useAutomationExtension", false);
-                webDriver = new ChromeDriver(options);
-            }
-            case "chrome-headless", "headless" -> {
-                WebDriverManager.chromedriver().setup();
-                ChromeOptions options = new ChromeOptions();
-                options.addArguments("--headless");
-                options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
-                options.setExperimentalOption("useAutomationExtension", false);
-                webDriver = new ChromeDriver(options);
-            }
-            case "firefox", "mozilla" -> {
-                WebDriverManager.firefoxdriver().setup();
-                webDriver = new FirefoxDriver();
-            }
-            case "firefox-headless" -> {
-                FirefoxOptions options = new FirefoxOptions();
-                options.setHeadless(true);
-                WebDriverManager.firefoxdriver().setup();
-                webDriver = new FirefoxDriver(options);
-            }
-            case "opera" -> {
-                WebDriverManager.operadriver().setup();
-                webDriver = new OperaDriver();
-            }
-            case "ie" -> {
-                WebDriverManager.iedriver().setup();
-                webDriver = new InternetExplorerDriver();
-            }
-            case "edge" -> {
-                WebDriverManager.edgedriver().setup();
-                webDriver = new EdgeDriver();
-            }
-            case "safari" -> {
-                webDriver = new SafariDriver();
-            }
-            default -> {
-                //TODO Add a custom error message here
-                logger.fatal("Valid browser type is not set.");
-                System.exit(-1);
-            }
-
-        }
-
-        webDriver.manage().window().maximize();
-        webDriver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-        logger.info("Browser " + BROWSER_TYPE + " is launched");
-        return webDriver;
+        return browserManager.getBrowserInstance(BROWSER_TYPE);
     }
 
 
@@ -414,5 +358,10 @@ public class HRMTestBase {
                 throw new IllegalStateException("locator : " + selector + " not found!!!");
         }
         return by;
+    }
+
+
+    public String getValue(WebElement webElement){
+        return webElement.getAttribute("value");
     }
 }
