@@ -5,6 +5,7 @@ import com.aventstack.extentreports.testng.listener.ExtentITestListenerClassAdap
 import com.github.javafaker.Faker;
 import com.pragmatic.hrm.pages.LandingPage;
 import com.pragmatic.hrm.pages.LoginPage;
+import com.pragmatic.hrm.support.ui.Checkbox;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -58,6 +59,7 @@ public class HRMTestBase {
 
 
     static final Logger logger = LogManager.getLogger(HRMTestBase.class.getName());
+    private WebDriverWait wait;
 
 
     @BeforeSuite(alwaysRun = true, groups = {"regression", "smoke"})
@@ -71,7 +73,7 @@ public class HRMTestBase {
 
 
     @AfterSuite(alwaysRun = true, groups = {"regression", "smoke"})
-    public void afterSuite(){
+    public void afterSuite() {
 
     }
 
@@ -79,6 +81,7 @@ public class HRMTestBase {
     @BeforeMethod(groups = {"regression", "smoke"})
     public void beforeMethod() {
         webDriver = browserManager.getBrowserInstance(BROWSER_TYPE);
+        wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
         webDriver.get(BASE_URL);
     }
 
@@ -133,18 +136,16 @@ public class HRMTestBase {
         }
     }
 
-    public void check(WebElement checkbox) {
+    public void check(WebElement element) {
+        Checkbox checkbox = new Checkbox(element);
+        checkbox.check();
 
-        if (!checkbox.isSelected()) {
-            checkbox.click();
-        }
     }
 
 
-    public void uncheck(WebElement checkbox) {
-        if (checkbox.isSelected()) {
-            checkbox.click();
-        }
+    public void uncheck(WebElement element) {
+        Checkbox checkbox = new Checkbox(element);
+        checkbox.uncheck();
     }
 
     public void clearAndType(WebElement txtElement, String textToType) {
@@ -309,10 +310,13 @@ public class HRMTestBase {
     }
 
     public void waitForElementPresence(By locator) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
+
+    public void waitForElementClickable(By locator) {
+        wait.until(ExpectedConditions.elementToBeClickable(locator));
+    }
 
     public void waitForElementPresence(WebElement webElement) {
 
@@ -361,7 +365,7 @@ public class HRMTestBase {
     }
 
 
-    public String getValue(WebElement webElement){
+    public String getValue(WebElement webElement) {
         return webElement.getAttribute("value");
     }
 }

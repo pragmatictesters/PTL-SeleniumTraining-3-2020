@@ -23,10 +23,7 @@ public class BrowserManager {
     static final Logger logger = LogManager.getLogger(BrowserManager.class);
 
 
-
     public void initWebDrivers(String browserType){
-
-
 
         switch (browserType.toLowerCase()) {
             case "chrome", "google-chrome", "chrome-headless", "headless" -> {
@@ -54,9 +51,8 @@ public class BrowserManager {
                 break;
             }
             default -> {
-                //TODO Add a custom error message here
                 logger.fatal("Supported browser type is not set");
-                System.exit(-1);
+                throw new BrowserManagerException("Supported browser is not configured");
             }
 
         }
@@ -104,9 +100,8 @@ public class BrowserManager {
                     webDriver = new SafariDriver();
                 }
                 default -> {
-                    //TODO Add a custom error message here
                     logger.fatal("Supported browser type is not set");
-                    System.exit(-1);
+                    throw new BrowserManagerException("Supported browser is not configured");
                 }
 
             }
