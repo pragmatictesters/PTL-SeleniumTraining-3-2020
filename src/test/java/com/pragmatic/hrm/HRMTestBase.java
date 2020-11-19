@@ -50,10 +50,7 @@ import java.util.List;
 @Listeners({ExtentITestListenerClassAdapter.class})
 public class HRMTestBase {
 
-    private final BrowserManager browserManager = new BrowserManager();
     public WebDriver webDriver;
-    public static String BASE_URL;
-    public static String BROWSER_TYPE;
     public Faker faker;
     public ExtentReports extent = new ExtentReports();
 
@@ -65,10 +62,9 @@ public class HRMTestBase {
     @BeforeSuite(alwaysRun = true, groups = {"regression", "smoke"})
     public void beforeSuite() {
         logger.info("Test is started");
-        initProperties();
-        browserManager.initWebDrivers(BROWSER_TYPE);
+        ConfigManager.initProperties();
+        new BrowserManager().initWebDrivers(Constants.BROWSER_TYPE);
         faker = new Faker();
-
     }
 
 
@@ -78,55 +74,8 @@ public class HRMTestBase {
     }
 
 
-    @BeforeMethod(groups = {"regression", "smoke"})
-    public void beforeMethod() {
-        webDriver = browserManager.getBrowserInstance(BROWSER_TYPE);
-        wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
-        webDriver.get(BASE_URL);
-    }
 
 
-    @AfterMethod(groups = {"regression", "smoke"})
-    public void afterMethod() {
-
-        if (webDriver != null) {
-            webDriver.quit();
-        }
-
-    }
-
-    private void initProperties() {
-        try {
-            Configuration config = new PropertiesConfiguration("conf/hrm.properties");
-            BASE_URL = config.getString("base.url");
-            BROWSER_TYPE = config.getString("browser.type");
-            logger.info("Properties are initialized ");
-
-
-        } catch (ConfigurationException e) {
-            logger.fatal("Property Initialization Failed", e);
-            System.exit(-1);
-        }
-
-    }
-
-
-    public WebDriver getBrowserInstance() {
-
-
-        return browserManager.getBrowserInstance(BROWSER_TYPE);
-    }
-
-
-    public LandingPage login(String userName, String password) {
-        LoginPage loginPage = PageFactory.initElements(webDriver, LoginPage.class);
-        LandingPage landingPage = loginPage.typeUsername(userName).typePassword(password).clickLoginWithSuccess();
-        return landingPage;
-
-    }
-
-
-    //TODO Add custom errors
 
     public void sleep(int i) {
         try {
@@ -136,22 +85,6 @@ public class HRMTestBase {
         }
     }
 
-    public void check(WebElement element) {
-        Checkbox checkbox = new Checkbox(element);
-        checkbox.check();
-
-    }
-
-
-    public void uncheck(WebElement element) {
-        Checkbox checkbox = new Checkbox(element);
-        checkbox.uncheck();
-    }
-
-    public void clearAndType(WebElement txtElement, String textToType) {
-        txtElement.clear();
-        txtElement.sendKeys(textToType);
-    }
 
 
     public static JSONObject[][] readCSV(String fileName) {
