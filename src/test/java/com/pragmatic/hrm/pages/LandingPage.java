@@ -1,5 +1,6 @@
 package com.pragmatic.hrm.pages;
 
+import com.pragmatic.hrm.HRMTestBase;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,19 +11,26 @@ import org.openqa.selenium.support.PageFactory;
  *
  * @Author Janesh Kodikara
  */
-public class LandingPage {
+public class LandingPage   {
+
+    private final WebDriver webDriver;
 
 
     @FindBy(id="welcome")
-    WebElement lnkWelcome;
+    private WebElement lnkWelcome;
 
     @FindBy (xpath = "//a[text()='Logout']")
-    WebElement lnkLogout;
+    private WebElement lnkLogout;
 
-    public LoginPage logout(WebDriver webDriver){
+
+    public LandingPage(WebDriver webDriver){
+        this.webDriver = webDriver;
+        PageFactory.initElements(this.webDriver, this);
+    }
+
+    public void logout(){
         lnkWelcome.click();
         lnkLogout.click();
-        return PageFactory.initElements(webDriver, LoginPage.class);
     }
 
 

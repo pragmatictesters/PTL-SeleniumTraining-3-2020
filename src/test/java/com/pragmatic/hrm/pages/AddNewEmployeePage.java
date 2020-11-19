@@ -1,8 +1,11 @@
 package com.pragmatic.hrm.pages;
 
+import com.pragmatic.examples.selenium.supportclasses.ui.Checkbox;
 import com.pragmatic.hrm.HRMTestBase;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
 /**
@@ -10,45 +13,56 @@ import org.openqa.selenium.support.ui.Select;
  *
  * @Author Janesh Kodikara
  */
-public class AddNewEmployeePage  extends HRMTestBase {
+public class AddNewEmployeePage extends HRMTestBase {
+
+    private final WebDriver webDriver;
 
 
-    @FindBy (id="firstName")
-    WebElement txtFirstname;
+    @FindBy(id = "firstName")
+    private WebElement txtFirstname;
 
     @FindBy(id = "lastName")
-    WebElement txtLastname;
+    private WebElement txtLastname;
+
+    @FindBy(id = "employeeId")
+    private WebElement txtEmpID;
 
 
     @FindBy(css = "span[for='firstName'].validation-error")
-    WebElement errFirstname;
+    private WebElement errFirstname;
 
     @FindBy(css = "span[for='lastName'].validation-error")
-    WebElement errLastname;
+    private WebElement errLastname;
 
     @FindBy(xpath = "//*[@id='photofile']")
-    WebElement btnUpload;
+    private WebElement btnUpload;
 
     @FindBy(xpath = "//input[@id='chkLogin']")
-    WebElement chkCreateLogin;
+    private WebElement chkCreateLogin;
 
 
     @FindBy(xpath = "//input[@id='user_name']")
-    WebElement txtUsername;
+    private WebElement txtUsername;
+
 
     @FindBy(xpath = "//input[@id='user_password']")
-    WebElement txtPassword;
+    private WebElement txtPassword;
 
     @FindBy(xpath = "//input[@id='re_password']")
-    WebElement txtConfirmPassword;
+    private WebElement txtConfirmPassword;
 
 
     @FindBy(xpath = "//select[@id='status']")
-    WebElement lstStatus;
+    private WebElement lstStatus;
 
     @FindBy(id = "btnSave")
-    WebElement btnSave;
+    private WebElement btnSave;
 
+
+    public AddNewEmployeePage(WebDriver webDriver) {
+        this.webDriver = webDriver;
+        PageFactory.initElements(webDriver, this);
+    }
 
     public AddNewEmployeePage typeFirstname(String firstName) {
         txtFirstname.sendKeys(firstName);
@@ -72,9 +86,8 @@ public class AddNewEmployeePage  extends HRMTestBase {
         return this;
     }
 
-    public void clickSaveWithSuccess() {
+    public void clickSave() {
         btnSave.click();
-        //TODO need to return appropriate page
     }
 
     public String getFirstNameError() {
@@ -88,12 +101,14 @@ public class AddNewEmployeePage  extends HRMTestBase {
 
 
     public AddNewEmployeePage checkCreateLoginDetails() {
-        check(chkCreateLogin);
+        Checkbox chkLogin = new Checkbox(chkCreateLogin);
+        chkLogin.check();
         return this;
     }
 
     public AddNewEmployeePage uncheckCreateLoginDetails() {
-        uncheck(chkCreateLogin);
+        Checkbox chkLogin = new Checkbox(chkCreateLogin);
+        chkLogin.uncheck();
         return this;
     }
 
@@ -101,8 +116,11 @@ public class AddNewEmployeePage  extends HRMTestBase {
     public AddNewEmployeePage selectStatus(String status) {
         new Select(lstStatus).selectByVisibleText(status);
         return this;
-
     }
 
 
+    public AddNewEmployeePage typeEmployeeID(String idNumber) {
+        txtEmpID.sendKeys(idNumber);
+        return this;
+    }
 }

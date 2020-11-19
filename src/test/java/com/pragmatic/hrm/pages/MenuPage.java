@@ -6,28 +6,38 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 /**
  * Created by Pragmatic Test Labs (Private) Limited
  *
  * @Author Janesh Kodikara
  */
-public class MenuPage extends HRMTestBase {
+public class MenuPage {
+
+    private final WebDriver webDriver;
 
 
     @FindBy(xpath = "//a[@id='menu_pim_viewPimModule']")
-    WebElement mnuPIM;
+    private WebElement mnuPIM;
 
     @FindBy(xpath = "//*[@id='menu_pim_addEmployee']")
-    WebElement mnuAddEmployee;
+    private WebElement mnuAddEmployee;
+
+    public MenuPage(WebDriver webDriver) {
+        this.webDriver = webDriver;
+        PageFactory.initElements(this.webDriver, this);
+    }
 
 
-    public AddNewEmployeePage navigateToAddEmployeePage(WebDriver webDriver) {
-
+    public void navigateToAddEmployeePage() {
         mnuPIM.click();
-        waitForElementPresence(By.xpath("//*[@id='menu_pim_addEmployee']"));
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOf(mnuAddEmployee));
         mnuAddEmployee.click();
-        return PageFactory.initElements(webDriver, AddNewEmployeePage.class);
     }
 
 
